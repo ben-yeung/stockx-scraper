@@ -18,7 +18,7 @@ async function getStockXPrices() {
         try {
             stockX.searchProducts(key).then((queryResults) => {
                 stockX.fetchProductDetails(queryResults[0]).then((productResults) => {
-                    console.log(`Scraping ${productResults["name"]}`)
+                    console.log(`[${new Date().toLocaleTimeString('en-US')}] Scraping ${productResults["name"]}`)
                     if (typeof(val) == "number") {
                         if (productResults.market["lowestAsk"] >= val) {
                             let sourceURL = `https://stockx.com/${productResults.market.productUuid}`;
