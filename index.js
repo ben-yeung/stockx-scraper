@@ -5,7 +5,7 @@ const  secrets = require("./secrets.json")
 
 // Format for key:val is query:{size entries}
 // Size entries are size:target
-// Target price is evaluted on last sale or lowest ask
+// Target price is evaluted on lowest ask
 // Leave val to be target price if no size specified
 let queries = {
     "yeezy foam rnnr stone sage":{9:200, 13:200}
@@ -20,7 +20,7 @@ async function getStockXPrices() {
                 stockX.fetchProductDetails(queryResults[0]).then((productResults) => {
                     console.log(`Scraping ${productResults["name"]}`)
                     if (typeof(val) == "number") {
-                        if (productResults.market["lastSale"] >= val || productResults.market["lowestAsk"] >= val) {
+                        if (productResults.market["lowestAsk"] >= val) {
                             let sourceURL = `https://stockx.com/${productResults.market.productUuid}`;
                             const formattedData = `[Link To StockX](${sourceURL})\n`;
                             const timestamp = new Date().toISOString();
@@ -69,7 +69,7 @@ async function getStockXPrices() {
                             try {
                                 stockX.fetchProductDetails(productResults.sizeMap[size.toString()]).then((sizeDetails) => {
                                     // console.log(sizeDetails)
-                                    if (sizeDetails.market["lastSale"] >= target || sizeDetails.market["lowestAsk"] >= target ) {
+                                    if (sizeDetails.market["lowestAsk"] >= target ) {
                                         let sourceURL = `https://stockx.com/${sizeDetails.market.productUuid}?size=${size}`;
                                         const formattedData = `[Link To StockX](${sourceURL})\n`;
                                         const timestamp = new Date().toISOString();
